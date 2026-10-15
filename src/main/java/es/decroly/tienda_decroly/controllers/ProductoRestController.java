@@ -2,20 +2,24 @@ package es.decroly.tienda_decroly.controllers;
 
 import es.decroly.tienda_decroly.domain.Producto;
 import es.decroly.tienda_decroly.services.ProductoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Tag(name = "Productos", description = "Catalogo de productos")
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/productos")
 public class ProductoRestController {
 
     private final ProductoService productoService;
-
-    public ProductoRestController(/*@Qualifier("productoServiceMemoria") Con Qualifier definimos la implementacion del servicio a utilizar */ ProductoService productoService) {
-        this.productoService = productoService;
-    }
 
     @PostMapping()
     public Producto crear(@RequestBody Producto producto) {
@@ -26,6 +30,13 @@ public class ProductoRestController {
     public List<Producto> listar() {
         return productoService.listar();
     }
+
+    @Operation(summary = "Consultar un producto por su id")
+    @ApiResponse(responseCode = "200", description = "Producto encontrado")
+    @ApiResponse(responseCode = "404",
+            description = "No existe el producto",
+            content = @Content(
+                    schema = @Schema(implementation = ProblemDetail.class)))
 
     @GetMapping("/{id}")
     public Producto buscarPorId(@PathVariable Long id) {
