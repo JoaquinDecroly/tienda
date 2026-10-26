@@ -1,6 +1,7 @@
 package es.decroly.tienda_decroly.services;
 
 import es.decroly.tienda_decroly.domain.Producto;
+import es.decroly.tienda_decroly.dto.InfoTiendaDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,4 +12,5 @@ public interface ProductoService {
     Producto crear(Producto producto);
     Producto modificar(Long id, Producto datos);
     void borrar(Long id);
+    InfoTiendaDto info();
 }

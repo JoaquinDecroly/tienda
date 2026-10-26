@@ -1,5 +1,6 @@
 package es.decroly.tienda_decroly.services;
 
+import es.decroly.tienda_decroly.config.TiendaProperties;
 import es.decroly.tienda_decroly.domain.Producto;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Primary;
@@ -22,8 +23,8 @@ Con primary establecemos esta implementación por defecto, es un de las tres opc
 public class ProductoServiceJson extends ProductoServiceBase {
 
 
-    public ProductoServiceJson(ObjectMapper mapper) throws IOException {
-        super(cargar(mapper));
+    public ProductoServiceJson(ObjectMapper mapper, TiendaProperties tiendaProperties) throws IOException {
+        super(cargar(mapper), tiendaProperties);
 
     }
 

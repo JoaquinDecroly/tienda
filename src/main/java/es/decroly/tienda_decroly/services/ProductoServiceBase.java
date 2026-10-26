@@ -1,6 +1,8 @@
 package es.decroly.tienda_decroly.services;
 
+import es.decroly.tienda_decroly.config.TiendaProperties;
 import es.decroly.tienda_decroly.domain.Producto;
+import es.decroly.tienda_decroly.dto.InfoTiendaDto;
 import es.decroly.tienda_decroly.exceptions.BadRequestException;
 import es.decroly.tienda_decroly.exceptions.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -15,9 +17,11 @@ public abstract class ProductoServiceBase implements ProductoService {
 
     private final List<Producto> productos;
     private final AtomicLong secuencia;
+    private final TiendaProperties tiendaProperties;
 
-    public ProductoServiceBase(List<Producto> pordInic) {
+    public ProductoServiceBase(List<Producto> pordInic, TiendaProperties tiendaProperties) {
         this.productos = new ArrayList(pordInic);
+        this.tiendaProperties = tiendaProperties;
         long maxId = 0;                       // mayor id de los iniciales
         for (Producto p : pordInic) {
             if (p.getId() > maxId) {
@@ -80,5 +84,11 @@ public abstract class ProductoServiceBase implements ProductoService {
         if (p.getStock() < 0) {
             throw new BadRequestException("Stock no puede ser negativo");
         }
+    }
+    @Override
+    public InfoTiendaDto info() {
+        return new InfoTiendaDto(tiendaProperties.nombre(),
+                tiendaProperties.iva(),
+                tiendaProperties.envioGratisDesde());
     }
 }

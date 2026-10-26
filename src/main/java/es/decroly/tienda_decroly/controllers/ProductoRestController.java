@@ -1,6 +1,7 @@
 package es.decroly.tienda_decroly.controllers;
 
 import es.decroly.tienda_decroly.domain.Producto;
+import es.decroly.tienda_decroly.dto.InfoTiendaDto;
 import es.decroly.tienda_decroly.services.ProductoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -53,6 +54,10 @@ public class ProductoRestController {
     @DeleteMapping("/{id}")
     public void borrar(@PathVariable Long id) {
         productoService.borrar(id);
+    }
+    @GetMapping("/info")
+    public InfoTiendaDto info() {
+        return productoService.info();
     }
 
 }
